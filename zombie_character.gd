@@ -10,7 +10,6 @@ const ROTATION_SPEED = 10.0
 # Flip this to 180.0 in the Inspector if the zombie ends up walking backwards.
 @export var facing_offset_degrees: float = 0.0
 
-@onready var model: Node3D = $Model
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -56,7 +55,7 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCELERATION * delta)
 
 		var target_angle = atan2(direction.x, direction.z) + deg_to_rad(facing_offset_degrees)
-		model.rotation.y = lerp_angle(model.rotation.y, target_angle, ROTATION_SPEED * delta)
+		rotation.y = lerp_angle(rotation.y, target_angle, ROTATION_SPEED * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
