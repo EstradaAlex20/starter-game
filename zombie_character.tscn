@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://zombie_character.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://dml54psunqv7x" path="res://Assets/zombie/Model/characterMedium.fbx" id="2_model"]
 [ext_resource type="Texture2D" uid="uid://de43jojk6pisk" path="res://Assets/zombie/Skins/zombieA.png" id="3_skin"]
+[ext_resource type="Script" path="res://score_label.gd" id="4_score_label"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_zombie"]
 radius = 0.4
@@ -12,7 +13,7 @@ height = 1.9
 albedo_texture = ExtResource("3_skin")
 roughness = 1.0
 
-[node name="ZombieCharacter" type="CharacterBody3D"]
+[node name="ZombieCharacter" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("1_script")
@@ -69,3 +70,15 @@ anchor_bottom = 1.0
 offset_left = -1.0
 offset_right = 1.0
 color = Color(1, 1, 1, 0.85)
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(1, 0.87, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
+text = "Coins: 0"
+script = ExtResource("4_score_label")
