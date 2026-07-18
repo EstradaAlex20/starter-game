@@ -17,7 +17,7 @@ const JUMP_VELOCITY = 4.5
 ## (scaling it too would drag the camera close enough to clip into a small
 ## character). Tweak live while the game is running via the Remote scene
 ## tree, then hardcode whatever value you land on as the new default above.
-@export_range(0.5, 3.0, 0.05) var character_scale: float = 1.0:
+@export_range(0.05, 3.0, 0.05) var character_scale: float = 0.1:
 	set(value):
 		character_scale = value
 		_apply_character_scale()

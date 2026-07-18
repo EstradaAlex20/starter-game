@@ -3,18 +3,12 @@
 [ext_resource type="Script" uid="uid://dbe8q2o2g4nnu" path="res://zombie_character.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://dml54psunqv7x" path="res://Assets/zombie/Model/characterMedium.fbx" id="2_model"]
 [ext_resource type="Script" uid="uid://bygm0sfwperf" path="res://score_label.gd" id="4_score_label"]
-[ext_resource type="Texture2D" uid="uid://de43jojk6pisk" path="res://Assets/zombie/Skins/zombieA.png" id="5_skin"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_zombie"]
 radius = 0.4
 height = 1.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_zombie_skin"]
-albedo_texture = ExtResource("5_skin")
-roughness = 1.0
-
 [node name="ZombieCharacter" type="CharacterBody3D" groups=["player"]]
-transform = Transform3D(0.155, 0, 0, 0, 0.155, 0, 0, 0, 0.155, 0, 0, 0)
 collision_layer = 2
 script = ExtResource("1_script")
 
@@ -24,17 +18,14 @@ shape = SubResource("CapsuleShape3D_zombie")
 
 [node name="Model" parent="." instance=ExtResource("2_model")]
 
-[node name="characterMedium" parent="Model/Root/Skeleton3D" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_zombie_skin")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Model")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(-1, 2.990035e-08, -8.2150535e-08, 0, 0.9396926, 0.34202012, 8.742278e-08, 0.34202012, -0.9396926, 0, 1.6, 0)
+transform = Transform3D(-1, 2.990035e-08, -8.2150535e-08, 0, 0.9396926, 0.34202012, 8.742278e-08, 0.34202012, -0.9396926, 0, 0.16, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
-spring_length = 6.0
+spring_length = 0.6
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 current = true
@@ -52,6 +43,8 @@ offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Horizontal" type="ColorRect" parent="HUD/Crosshair"]
