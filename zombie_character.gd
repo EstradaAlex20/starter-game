@@ -23,6 +23,7 @@ const JUMP_VELOCITY = 4.5
 		_apply_character_scale()
 
 const BASE_CAPSULE_HEIGHT = 1.9
+const SKIN_TEXTURE_PATH = "res://Assets/zombie/Skins/zombieA.png"
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
@@ -52,6 +53,21 @@ func _ready():
 	camera_pitch = camera_pivot.rotation.x
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_apply_character_scale()
+	_apply_skin()
+
+# Applied here in code rather than as a scene-level surface material
+# override, since that override on the imported FBX's internal mesh node
+# keeps getting lost from the scene file (likely reset whenever the Model
+# instance's editable children get touched in the editor) - doing it in
+# script guarantees the skin is always there regardless of what's saved.
+func _apply_skin():
+	var mesh_instance: MeshInstance3D = model.find_child("characterMedium", true, false)
+	if mesh_instance == null:
+		return
+	var material = StandardMaterial3D.new()
+	material.albedo_texture = load(SKIN_TEXTURE_PATH)
+	material.roughness = 1.0
+	mesh_instance.set_surface_override_material(0, material)
 
 func _apply_character_scale():
 	if not is_node_ready():
