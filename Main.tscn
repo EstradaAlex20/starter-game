@@ -1,11 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://jbg36h14daey"]
+[gd_scene load_steps=10 format=3 uid="uid://jbg36h14daey"]
 
-[ext_resource type="PackedScene" uid="uid://cg6hmfiwdq4ex" path="res://player.tscn" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://cml0f7muh84ff" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_basecolor.jpg" id="2_grass_albedo"]
+[ext_resource type="Texture2D" uid="uid://bnbo2mw7uxql5" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_normal.jpg" id="3_grass_normal"]
+[ext_resource type="Texture2D" uid="uid://cb8brjc2pto8u" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_roughness.jpg" id="4_grass_roughness"]
+[ext_resource type="PackedScene" path="res://zombie_character.tscn" id="5_3dxm6"]
+[ext_resource type="Texture2D" uid="uid://bva86ujqnivbc" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_ambientocclusion.jpg" id="5_grass_ao"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rxg2q"]
 size = Vector3(49.98947, 1, 49.958805)
 
 [sub_resource type="BoxMesh" id="BoxMesh_glv2v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_texture = ExtResource("2_grass_albedo")
+roughness_texture = ExtResource("4_grass_roughness")
+normal_enabled = true
+normal_texture = ExtResource("3_grass_normal")
+ao_enabled = true
+ao_texture = ExtResource("5_grass_ao")
+uv1_scale = Vector3(6, 6, 6)
+uv1_triplanar = true
 
 [sub_resource type="Environment" id="Environment_ambient"]
 ambient_light_source = 2
@@ -22,9 +36,10 @@ shape = SubResource("BoxShape3D_rxg2q")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
 mesh = SubResource("BoxMesh_glv2v")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
 
-[node name="Player" parent="." instance=ExtResource("1_glv2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9253807, 0)
+[node name="Zombie" parent="." instance=ExtResource("5_3dxm6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.89466166, 0.44674438, 0, -0.44674438, 0.89466166, -1.4305115e-06, 5.3480043, 10.696259)
