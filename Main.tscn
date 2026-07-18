@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bnbo2mw7uxql5" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_normal.jpg" id="3_grass_normal"]
 [ext_resource type="Texture2D" uid="uid://cb8brjc2pto8u" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_roughness.jpg" id="4_grass_roughness"]
 [ext_resource type="PackedScene" path="res://zombie_character.tscn" id="5_3dxm6"]
-[ext_resource type="PackedScene" path="res://coin.tscn" id="6_coin"]
 [ext_resource type="Texture2D" uid="uid://bva86ujqnivbc" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_ambientocclusion.jpg" id="5_grass_ao"]
+[ext_resource type="PackedScene" uid="uid://bjeawx7wi60o4" path="res://coin.tscn" id="6_coin"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rxg2q"]
 size = Vector3(49.98947, 1, 49.958805)
@@ -43,13 +43,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Coin" parent="." instance=ExtResource("6_coin")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.358928, 1, 5.5487576)
 
 [node name="Coin2" parent="." instance=ExtResource("6_coin")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6448793, 0.9999995, 7.538458)
 
 [node name="Coin3" parent="." instance=ExtResource("6_coin")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2995348, 1, -8.608759)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4116507, 0)

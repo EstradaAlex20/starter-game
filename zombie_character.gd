@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 # Movement constants
 const SPEED = 5.0
+const SPRINT_MULTIPLIER = 1.6
 const ACCELERATION = 15.0
 const DECELERATION = 20.0
 const JUMP_VELOCITY = 4.5
@@ -73,19 +74,21 @@ func _physics_process(delta):
 	# Facing is fully driven by the mouse now, so movement can freely strafe/backpedal
 	# relative to it without any risk of fighting a self-referential rotation target.
 	var direction = (transform.basis * Vector3(-input_dir.x, 0, -input_dir.y)).normalized()
+	var is_sprinting = Input.is_action_pressed("sprint")
+	var current_speed = SPEED * SPRINT_MULTIPLIER if is_sprinting else SPEED
 
 	if direction.length() > 0.01:
-		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION * delta)
-		velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCELERATION * delta)
+		velocity.x = move_toward(velocity.x, direction.x * current_speed, ACCELERATION * delta)
+		velocity.z = move_toward(velocity.z, direction.z * current_speed, ACCELERATION * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
 
 	move_and_slide()
 
-	_update_animation(direction)
+	_update_animation(direction, is_sprinting)
 
-func _update_animation(direction: Vector3):
+func _update_animation(direction: Vector3, is_sprinting: bool):
 	var target_anim: String
 	if not is_on_floor():
 		target_anim = "jump"
@@ -96,3 +99,5 @@ func _update_animation(direction: Vector3):
 
 	if anim_player.current_animation != target_anim:
 		anim_player.play(target_anim)
+
+	anim_player.speed_scale = SPRINT_MULTIPLIER if (target_anim == "run" and is_sprinting) else 1.0
