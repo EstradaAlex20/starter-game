@@ -5,14 +5,16 @@ const SPEED = 5.0
 const ACCELERATION = 15.0
 const DECELERATION = 20.0
 const JUMP_VELOCITY = 4.5
-const ROTATION_SPEED = 10.0
 
-# Flip this to 180.0 in the Inspector if the zombie ends up walking backwards.
-@export var facing_offset_degrees: float = 0.0
+@export var mouse_sensitivity: float = 0.003
+@export var min_pitch_degrees: float = -60.0
+@export var max_pitch_degrees: float = 10.0
 
+@onready var camera_pivot: Node3D = $CameraPivot
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var camera_pitch: float
 
 # The zombie model and its animations ship as separate FBX files that share the
 # same skeleton, so at startup we pull the animations out of their own scenes
@@ -26,6 +28,8 @@ const ANIMATION_SOURCES = {
 func _ready():
 	_build_animation_library()
 	anim_player.play("idle")
+	camera_pitch = camera_pivot.rotation.x
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _build_animation_library():
 	var library = AnimationLibrary.new()
@@ -40,6 +44,22 @@ func _build_animation_library():
 		temp_instance.free()
 	anim_player.add_animation_library("", library)
 
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotation.y -= event.relative.x * mouse_sensitivity
+		camera_pitch = clamp(
+			camera_pitch - event.relative.y * mouse_sensitivity,
+			deg_to_rad(min_pitch_degrees),
+			deg_to_rad(max_pitch_degrees)
+		)
+		camera_pivot.rotation.x = camera_pitch
+
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -49,20 +69,13 @@ func _physics_process(delta):
 
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	# Local +Z is this model's forward direction, so forward input maps to -input_dir.y.
+	# Facing is fully driven by the mouse now, so movement can freely strafe/backpedal
+	# relative to it without any risk of fighting a self-referential rotation target.
 	var direction = (transform.basis * Vector3(input_dir.x, 0, -input_dir.y)).normalized()
 
 	if direction.length() > 0.01:
 		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION * delta)
 		velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCELERATION * delta)
-
-		# Only turn to face travel direction when running straight forward.
-		# Since direction is derived from the character's own current rotation,
-		# rotating to face it while strafing (or backing up) would chase a
-		# constantly-shifting target and spin forever - so anything but pure
-		# forward input just holds the current facing.
-		if absf(input_dir.x) < 0.01 and input_dir.y < -0.01:
-			var target_angle = atan2(direction.x, direction.z) + deg_to_rad(facing_offset_degrees)
-			rotation.y = lerp_angle(rotation.y, target_angle, ROTATION_SPEED * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)

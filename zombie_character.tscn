@@ -38,3 +38,34 @@ spring_length = 6.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 current = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Crosshair" type="Control" parent="HUD"]
+mouse_filter = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Horizontal" type="ColorRect" parent="HUD/Crosshair"]
+mouse_filter = 2
+anchor_right = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -1.0
+offset_bottom = 1.0
+color = Color(1, 1, 1, 0.85)
+
+[node name="Vertical" type="ColorRect" parent="HUD/Crosshair"]
+mouse_filter = 2
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 1.0
+color = Color(1, 1, 1, 0.85)
