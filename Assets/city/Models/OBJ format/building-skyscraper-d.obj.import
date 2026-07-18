@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://146tn0hy2md6"
+path="res://.godot/imported/building-skyscraper-d.obj-f61297719668edf32e14daa1457b1900.mesh"
+
+[deps]
+
+files=["res://.godot/imported/building-skyscraper-d.obj-f61297719668edf32e14daa1457b1900.mesh"]
+
+source_file="res://Assets/city/Models/OBJ format/building-skyscraper-d.obj"
+dest_files=["res://.godot/imported/building-skyscraper-d.obj-f61297719668edf32e14daa1457b1900.mesh", "res://.godot/imported/building-skyscraper-d.obj-f61297719668edf32e14daa1457b1900.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
