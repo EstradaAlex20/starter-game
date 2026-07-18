@@ -11,6 +11,14 @@ const JUMP_VELOCITY = 4.5
 @export var min_pitch_degrees: float = -60.0
 @export var max_pitch_degrees: float = 10.0
 
+## Scales the whole character (model, collision, camera rig) uniformly.
+## Tweak live while the game is running via the Remote scene tree, then
+## hardcode whatever value you land on as the new default above.
+@export_range(0.5, 3.0, 0.05) var character_scale: float = 1.0:
+	set(value):
+		character_scale = value
+		scale = Vector3.ONE * value
+
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
