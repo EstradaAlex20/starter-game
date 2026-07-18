@@ -68,10 +68,11 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	# Local +Z is this model's forward direction, so forward input maps to -input_dir.y.
+	# This model's forward is local +Z rather than Godot's usual -Z (a 180-degree
+	# flip), which flips "right" to local -X as well - so both axes get negated.
 	# Facing is fully driven by the mouse now, so movement can freely strafe/backpedal
 	# relative to it without any risk of fighting a self-referential rotation target.
-	var direction = (transform.basis * Vector3(input_dir.x, 0, -input_dir.y)).normalized()
+	var direction = (transform.basis * Vector3(-input_dir.x, 0, -input_dir.y)).normalized()
 
 	if direction.length() > 0.01:
 		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION * delta)
