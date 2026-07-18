@@ -48,14 +48,21 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction = Vector3(input_dir.x, 0, input_dir.y).normalized()
+	# Local +Z is this model's forward direction, so forward input maps to -input_dir.y.
+	var direction = (transform.basis * Vector3(input_dir.x, 0, -input_dir.y)).normalized()
 
 	if direction.length() > 0.01:
 		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION * delta)
 		velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCELERATION * delta)
 
-		var target_angle = atan2(direction.x, direction.z) + deg_to_rad(facing_offset_degrees)
-		rotation.y = lerp_angle(rotation.y, target_angle, ROTATION_SPEED * delta)
+		# Only turn to face travel direction when running straight forward.
+		# Since direction is derived from the character's own current rotation,
+		# rotating to face it while strafing (or backing up) would chase a
+		# constantly-shifting target and spin forever - so anything but pure
+		# forward input just holds the current facing.
+		if absf(input_dir.x) < 0.01 and input_dir.y < -0.01:
+			var target_angle = atan2(direction.x, direction.z) + deg_to_rad(facing_offset_degrees)
+			rotation.y = lerp_angle(rotation.y, target_angle, ROTATION_SPEED * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
