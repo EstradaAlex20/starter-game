@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://jbg36h14daey"]
+[gd_scene load_steps=5 format=3 uid="uid://jbg36h14daey"]
 
 [ext_resource type="PackedScene" uid="uid://cg6hmfiwdq4ex" path="res://player.tscn" id="1_glv2v"]
 
@@ -6,6 +6,11 @@
 size = Vector3(49.98947, 1, 49.958805)
 
 [sub_resource type="BoxMesh" id="BoxMesh_glv2v"]
+
+[sub_resource type="Environment" id="Environment_ambient"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -22,8 +27,12 @@ mesh = SubResource("BoxMesh_glv2v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9253807, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.22234839, 0.9749673, 0, -0.9749673, 0.22234839, 4.7683716e-07, 17.156895, 4.4254265)
+transform = Transform3D(1, 0, 0, 0, 0.89466166, 0.44674438, 0, -0.44674438, 0.89466166, -1.4305115e-06, 5.3480043, 10.696259)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4116507, 0)
+visible = false
 light_size = 1.645
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ambient")
