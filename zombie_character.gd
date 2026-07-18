@@ -11,16 +11,23 @@ const JUMP_VELOCITY = 4.5
 @export var min_pitch_degrees: float = -60.0
 @export var max_pitch_degrees: float = 10.0
 
-## Scales the whole character (model, collision, camera rig) uniformly.
-## Tweak live while the game is running via the Remote scene tree, then
-## hardcode whatever value you land on as the new default above.
+## Scales the character's model and collision capsule uniformly. The camera
+## rig is deliberately NOT scaled by this - it's a sibling of the model, not
+## a child of it, so it stays at a fixed, sane distance regardless of size
+## (scaling it too would drag the camera close enough to clip into a small
+## character). Tweak live while the game is running via the Remote scene
+## tree, then hardcode whatever value you land on as the new default above.
 @export_range(0.5, 3.0, 0.05) var character_scale: float = 1.0:
 	set(value):
 		character_scale = value
-		scale = Vector3.ONE * value
+		_apply_character_scale()
+
+const BASE_CAPSULE_HEIGHT = 1.9
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var model: Node3D = $Model
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var camera_pitch: float
@@ -35,10 +42,23 @@ const ANIMATION_SOURCES = {
 }
 
 func _ready():
+	# Sizing is controlled entirely by character_scale below, not this node's
+	# own Transform/Scale - normalize it in case it was hand-edited in the
+	# Inspector (that scale would otherwise compound with character_scale and
+	# also shrink the camera rig, since it's a child of this node).
+	scale = Vector3.ONE
 	_build_animation_library()
 	anim_player.play("idle")
 	camera_pitch = camera_pivot.rotation.x
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_apply_character_scale()
+
+func _apply_character_scale():
+	if not is_node_ready():
+		return
+	model.scale = Vector3.ONE * character_scale
+	collision_shape.scale = Vector3.ONE * character_scale
+	collision_shape.position.y = (BASE_CAPSULE_HEIGHT * character_scale) / 2.0
 
 func _build_animation_library():
 	var library = AnimationLibrary.new()
