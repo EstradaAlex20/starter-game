@@ -75,10 +75,12 @@ func _build_grid_map() -> GridMap:
 	grid_map.name = "CityGridMap"
 	grid_map.mesh_library = load(MESH_LIBRARY_PATH)
 	grid_map.cell_size = Vector3(1, 1, 1)
-	# GridMap's default cell_center_y offsets cell content up by half a cell,
-	# which put the road surface ~0.5 above the grass ground - shift the whole
-	# map down so both surfaces are flush (confirmed empirically, not assumed).
-	grid_map.position = Vector3(0, -0.5, 0)
+	# GridMap's default cell_center_y centers cell content vertically within
+	# each cell, which put the road surface ~0.5 above the grass ground and
+	# ~0.5 above this node's own origin. Disabling it (rather than shifting
+	# the whole node down to compensate) keeps the node's origin flush with
+	# its own rendered tiles too - confirmed via raycast, not assumed.
+	grid_map.cell_center_y = false
 
 	# Center intersection.
 	grid_map.set_cell_item(Vector3i(0, 0, 0), ROAD_INTERSECTION, ROT_0)

@@ -1,14 +1,12 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=12 format=3 uid="uid://dwsna75q8vgut"]
 
-[ext_resource type="Texture2D" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_basecolor.jpg" id="1_w8h3e"]
-[ext_resource type="Texture2D" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_ambientocclusion.jpg" id="2_0bjg3"]
-[ext_resource type="Texture2D" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_normal.jpg" id="3_diqco"]
-[ext_resource type="Texture2D" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_roughness.jpg" id="4_kj4hi"]
-[ext_resource type="MeshLibrary" path="res://levels/city_mesh_library.tres" id="5_ufjm4"]
+[ext_resource type="Texture2D" uid="uid://cml0f7muh84ff" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_basecolor.jpg" id="1_w8h3e"]
+[ext_resource type="Texture2D" uid="uid://bva86ujqnivbc" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_ambientocclusion.jpg" id="2_0bjg3"]
+[ext_resource type="Texture2D" uid="uid://bnbo2mw7uxql5" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_normal.jpg" id="3_diqco"]
+[ext_resource type="Texture2D" uid="uid://cb8brjc2pto8u" path="res://Assets/grass/JPEG/Stylized_HandpaintedGrass_01/Stylized_HandpaintedGrass_01_roughness.jpg" id="4_kj4hi"]
+[ext_resource type="MeshLibrary" uid="uid://ddsrgpptr5668" path="res://levels/city_mesh_library.tres" id="5_ufjm4"]
 [ext_resource type="PackedScene" path="res://zombie_character.tscn" id="6_wf705"]
-[ext_resource type="Script" path="res://zombie_character.gd" id="7_bupd6"]
-[ext_resource type="PackedScene" path="res://coin.tscn" id="8_xm5wc"]
-[ext_resource type="Script" path="res://coin.gd" id="9_ic58h"]
+[ext_resource type="PackedScene" uid="uid://bjeawx7wi60o4" path="res://coin.tscn" id="8_xm5wc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_efatx"]
 size = Vector3(30, 1, 30)
@@ -34,6 +32,7 @@ ambient_light_energy = 0.6
 [node name="LevelCity" type="Node3D"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -45,11 +44,11 @@ mesh = SubResource("BoxMesh_7j8pi")
 surface_material_override/0 = SubResource("StandardMaterial3D_yhnt5")
 
 [node name="CityGridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh_library = ExtResource("5_ufjm4")
 cell_size = Vector3(1, 1, 1)
+cell_center_y = false
 data = {
-"cells": PackedInt32Array(0, 0, 1, 1, 0, 1048576, 65535, 0, 1048576, 0, 1, 0, 0, 65535, 0, 2, 0, 1048576, 65534, 0, 1048576, 0, 2, 0, 0, 65534, 0, 3, 0, 1048576, 65533, 0, 1048576, 0, 3, 0, 0, 65533, 0, 0, 4, 2, 0, 65532, 655362, 4, 0, 1048578, 65532, 0, 1441794, 1, 1, 4, 1, 65535, 4, 65535, 1, 4, 65535, 65535, 4, 2, 1, 4, 2, 65535, 4, 65534, 1, 4, 65534, 65535, 4, 1, 2, 4, 65535, 2, 4, 1, 65534, 4, 65535, 65534, 4, 3, 1, 4, 3, 65535, 4, 65533, 1, 4, 65533, 65535, 4, 1, 3, 4, 65535, 3, 4, 1, 65533, 4, 65535, 65533, 4, 2, 2, 5, 3, 3, 11, 3, 2, 1048589, 2, 65534, 6, 3, 65533, 7, 2, 65533, 14, 65534, 2, 8, 65533, 3, 9, 65534, 65534, 10, 65533, 65533, 12)
+"cells": PackedInt32Array(0, 0, 1, 65535, 0, 0, 0, 1, 1441792, 2, 0, 0, 65534, 0, 0, 0, 2, 1441792, 0, 65534, 1441792, 3, 0, 0, 65533, 0, 0, 0, 3, 1441792, 0, 65533, 1441792, 0, 4, 1048578, 0, 65532, 1441794, 4, 0, 655362, 65532, 0, 2, 1, 1, 4, 1, 65535, 4, 65535, 1, 4, 65535, 65535, 4, 2, 1, 4, 2, 65535, 4, 65534, 1, 4, 65534, 65535, 1179652, 1, 2, 4, 65535, 2, 4, 1, 65534, 4, 65535, 65534, 4, 3, 1, 4, 3, 65535, 4, 65533, 1, 4, 1, 3, 4, 65535, 3, 4, 1, 65533, 4, 65535, 65533, 4, 2, 2, 5, 3, 3, 11, 3, 2, 1048589, 2, 65534, 6, 3, 65533, 7, 2, 65533, 14, 65534, 2, 8, 65533, 3, 9, 65534, 65534, 10, 65533, 65533, 12, 1, 0, 0, 0, 65535, 1441792, 65533, 65535, 1179652, 65532, 65535, 1179652)
 }
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -59,31 +58,17 @@ environment = SubResource("Environment_e6qvo")
 transform = Transform3D(0.8660254, 0.38302222, -0.32139382, 0, 0.64278764, 0.76604444, 0.5, -0.66341394, 0.5566704, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Zombie" type="CharacterBody3D" parent="." groups=["player"] instance=ExtResource("6_wf705")]
+[node name="Zombie" parent="." instance=ExtResource("6_wf705")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 2)
-collision_layer = 2
-script = ExtResource("7_bupd6")
 
-[node name="Coin0" type="Area3D" parent="." instance=ExtResource("8_xm5wc")]
+[node name="Coin0" parent="." instance=ExtResource("8_xm5wc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 2)
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("9_ic58h")
 
-[node name="Coin1" type="Area3D" parent="." instance=ExtResource("8_xm5wc")]
+[node name="Coin1" parent="." instance=ExtResource("8_xm5wc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -2)
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("9_ic58h")
 
-[node name="Coin2" type="Area3D" parent="." instance=ExtResource("8_xm5wc")]
+[node name="Coin2" parent="." instance=ExtResource("8_xm5wc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("9_ic58h")
 
-[node name="Coin3" type="Area3D" parent="." instance=ExtResource("8_xm5wc")]
+[node name="Coin3" parent="." instance=ExtResource("8_xm5wc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, -1)
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("9_ic58h")
