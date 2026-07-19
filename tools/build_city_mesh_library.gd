@@ -92,11 +92,18 @@ func _initialize():
 		library.set_item_mesh(id, mesh)
 		library.set_item_mesh_transform(id, mesh_inst.transform)
 
-		var shape = mesh.create_trimesh_shape()
-		if shape:
-			library.set_item_shapes(id, [shape, mesh_inst.transform])
-		else:
-			print("  (no collision shape generated for ", tile_name, ")")
+		# Box collision instead of per-vertex trimesh: with hundreds of tiles
+		# placed edge-to-edge, tiny seams between adjacent trimeshes (from
+		# mesh precision/bevels) were catching the character's capsule and
+		# killing its velocity via move_and_slide() - confirmed by testing
+		# movement across many tiles, which was jittery even at normal scale
+		# and fully frozen at small scale. A box per tile stitches together
+		# with no seams and is more than precise enough for blocking collision.
+		var aabb = mesh.get_aabb()
+		var shape = BoxShape3D.new()
+		shape.size = aabb.size
+		var shape_transform = mesh_inst.transform * Transform3D(Basis(), aabb.position + aabb.size / 2.0)
+		library.set_item_shapes(id, [shape, shape_transform])
 
 		print("Added [", id, "] ", tile_name)
 		id += 1
